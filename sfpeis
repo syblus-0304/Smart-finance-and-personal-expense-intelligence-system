@@ -1,0 +1,28 @@
+import json 
+import datetime 
+FILE = "data.json" def load():     try: 
+        return json.load(open(FILE))     except: 
+        return {"income": [], "expenses": [], "budget": {}} def save(data): 
+    json.dump(data, open(FILE, "w"), indent=2) data = load() 
+while True: 
+    print("\n1.Income 2.Expense 3.Budget 4.View 5.Summary 6.Exit")     ch = input("Choice: ")     if ch == "1": 
+        amt = float(input("Amount: "))         data["income"].append({ 
+            "amt": amt, 
+            "date": str(datetime.date.today()) 
+        })     elif ch == "2":         cat = input("Category: ") 
+        amt = float(input("Amount: "))         data["expenses"].append({ 
+            "amt": amt, 
+            "cat": cat, 
+            "date": str(datetime.date.today()) 
+        }) 
+        if cat in data["budget"] and amt > data["budget"][cat]: 
+            print("⚠ Budget Exceeded!")
+elif ch == "3":         cat = input("Category: ") 
+        limit = float(input("Limit: "))         data["budget"][cat] = limit     elif ch == "4": 
+        print("\nIncome Records:")         for i in data["income"]:             print(i) 
+        print("\nExpense Records:") 
+        for e in data["expenses"]:             print(e)     elif ch == "5": 
+        inc = sum(i["amt"] for i in data["income"]) 
+        exp = sum(e["amt"] for e in data["expenses"]) 
+        print("\nTotal Income:", inc)         print("Total Expense:", exp)         print("Balance:", inc - exp)     elif ch == "6":         print("Exiting...")         break     else:
+print("Invalid Choice!")
